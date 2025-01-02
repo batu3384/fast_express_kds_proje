@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anasayfa | Fast Express</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <style>
+    /* Genel Grafik Alanı */
+canvas {
+    display: block;
+    margin: 20px auto; /* Ortalamak için */
+    max-width: 800px; /* Genişliği sınırla */
+   
+}
+
+/* Gelir-Gider-Kar Grafiği */
+#gelirGiderKarGrafik {
+    max-width: 800px; /* Daha geniş grafik */
+    max-height: 800px; /* Daha yüksek grafik */
+}
+
+/* En Çok Kargo Giden İlk 3 Şube */
+#topSubelerGrafik {
+    max-width: 800px; /* Daha küçük genişlik */
+    max-height: 800px; /* Daha küçük yükseklik */
+}
+
+  </style>
+</head>
+<body>
+  <div id="layout">
+    <nav id="sidebar">
+        <div class="sidebar-header">Fast Express</div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Anasayfa</a></li>
+            <li><a href="subeler.html"><i class="fas fa-building"></i> Şubeler</a></li>
+            <li><a href="personel.html"><i class="fas fa-users"></i> Personel</a></li>
+            <li><a href="karsilastirma.html"><i class="fas fa-chart-bar"></i> Karşılaştırma</a></li> 
+            <li><a href="tahminleme.html"><i class="fas fa-chart-line"></i> Tahminleme</a></li>  
+            <li><a href="raporlama.html"><i class="fas fa-file-alt"></i> Raporlama</a></li>        
+            <li><a href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
+        </ul>
+    </nav>
+          
+
+    <div id="content">
+      <h1>Anasayfa</h1>
+     <!-- Kutucuklar -->
+<!-- Kutucuklar -->
+<div class="cards">
+  <div class="card blue-card" id="toplamSube">Toplam Şube Sayısı: 0</div>
+  <div class="card blue-card" id="yillikToplamKargo">Yıllık Toplam Kargo Sayısı: 0</div>
+  <div class="card red-card" id="yillikPersonelGider">Yıllık Personel Gideri: 0 TL</div>
+  <div class="card red-card" id="yillikToplamKira">Yıllık Kira Tutarı: 0 TL</div>
+  <div class="card blue-card" id="yillikToplamGelir">Yıllık Toplam Kargo Geliri: 0 TL</div>
+  <div class="card red-card" id="yillikToplamMaliyet">Yıllık Toplam Kargo Maliyeti: 0 TL</div>
+  <div class="card blue-card" id="yillikToplamKari">Yıllık Toplam Kargo Karı: 0 TL</div>
+  <div class="card red-card" id="yillikToplamGider">Yıllık Toplam Gider: 0 TL</div>
+  <div class="card blue-card" id="teslimOrani">Teslim Edilen Kargo Oranı: 0%</div>
+  <div class="card red-card" id="iptalOrani">İptal Edilen Kargo Oranı: 0%</div>
+</div>
+
+
+      <!-- Grafikler -->
+      <h2>Yıllara Göre Toplam Gelir-Gider-Kar</h2>
+      <canvas id="gelirGiderKarGrafik" width="800" height="400"></canvas>
+
+      <h2>En Çok Kargo Giden İlk 3 Şube</h2>
+      <canvas id="topSubelerGrafik" width="400" height="400"></canvas>
+
+      <!-- Karşılaştırmalı Performans Tablosu -->
+      <h2>Karşılaştırmalı Şube Performans Analizi</h2>
+      <table border="1" id="subePerformansTablo">
+        <thead>
+          <tr>
+            <th>Şube</th>
+            <th>Toplam Kargo</th>
+            <th>Teslim Edilen</th>
+            <th>İptal Edilen</th>
+            <th>Başarı Oranı</th>
+            <th>Hata Oranı</th>
+          </tr>
+        </thead>
+        <tbody id="subePerformansTabloBody">
+          <!-- Veriler Dinamik Olarak Eklenecek -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="js/index.js"></script>
+</body>
+</html>

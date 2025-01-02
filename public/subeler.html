@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Şube Seçimi | Fast Express</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    </head>
+  <body>
+    <div id="layout">
+      <!-- Sol Bar -->
+      <nav id="sidebar">
+        <div class="sidebar-header">Fast Express</div>
+        <ul class="nav-links">
+          <li><a href="index.html"><i class="fas fa-home"></i> Anasayfa</a></li>
+          <li><a href="subeler.html" class="active"><i class="fas fa-building"></i> Şubeler</a></li>
+          <li><a href="personel.html"><i class="fas fa-users"></i> Personel</a></li>
+          <li><a href="karsilastirma.html"><i class="fas fa-chart-bar"></i> Karşılaştırma</a></li>
+          <li><a href="tahminleme.html"><i class="fas fa-chart-line"></i> Tahminleme</a></li>
+          <li><a href="raporlama.html"><i class="fas fa-file-alt"></i> Raporlama</a></li>
+          <li><a href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
+        </ul>
+      </nav>
+
+      <!-- İçerik Alanı -->
+      <div id="content">
+        <h1>Şube Analiz Sayfasına Git</h1>
+        <label for="subeSecim">Şube Seçiniz:</label>
+        <select id="subeSecim" class="sube-select">
+          <option value="" disabled selected>Şube Seçin</option>
+        </select>
+        <button onclick="subeSec()" class="analiz-buton">
+          Analiz Sayfasına Git
+        </button>
+      </div>
+    </div>
+
+    <script>
+      async function subeleriListele() {
+        try {
+          const response = await fetch("/api/subeler");
+          const subeler = await response.json();
+          const subeSecim = document.getElementById("subeSecim");
+
+          subeler.forEach((sube) => {
+            const option = document.createElement("option");
+            option.value = sube.sube_id;
+            option.textContent = sube.sube_adi;
+            subeSecim.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Şubeler alınırken hata oluştu:", error);
+          alert("Şubeler alınamadı.");
+        }
+      }
+
+      function subeSec() {
+        const subeId = document.getElementById("subeSecim").value;
+        if (subeId) {
+          window.location.href = `sube_analiz.html?sube_id=${subeId}`;
+        } else {
+          alert("Lütfen bir şube seçin.");
+        }
+      }
+
+      window.onload = subeleriListele;
+
+    </script>
+  </body>
+</html>

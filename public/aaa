@@ -1,0 +1,157 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  const yilSecimi = document.getElementById("yilSecimi");
+  const periyotSecimi = document.getElementById("periyotSecimi");
+  const karsilastirButonu = document.getElementById("karsilastirButonu");
+  const grafikCanvas = document.getElementById("karsilastirmaGrafik");
+  const secilenSubeListesi = document.getElementById("secilenSubeListesi");
+
+  let sonGrafik = null;
+  const subeler = new Set();
+
+  // Haritayı Yükle
+  const map = L.map("harita", {
+    center: [41.0082, 28.9784],
+    zoom: 10,
+    zoomControl: true,
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "© OpenStreetMap",
+  }).addTo(map);
+
+  // Şubeleri Tanımla
+  const subeKoordinatlari = {
+    "Kadıköy Şubesi": [40.9919, 29.0271],
+    "Tuzla Şubesi": [40.8778, 29.3045],
+    "Pendik Şubesi": [40.8743, 29.2284],
+    "Beylikdüzü Şubesi": [41.0014, 28.6419],
+    "Başakşehir Şubesi": [41.0947, 28.8028],
+    "Maltepe Şubesi": [40.9357, 29.1553],
+  };
+
+  // Marker'ları Ekle
+  Object.keys(subeKoordinatlari).forEach((subeAdi) => {
+    const marker = L.marker(subeKoordinatlari[subeAdi])
+      .addTo(map)
+      .bindPopup(
+        `<b>${subeAdi}</b><br><button class="popup-button" onclick="subeSec('${subeAdi}')">Seç</button>`
+      );
+  });
+
+  // Şube Seçme Fonksiyonu
+  window.subeSec = (subeAdi) => {
+    if (subeler.has(subeAdi)) {
+      subeler.delete(subeAdi);
+    } else {
+      subeler.add(subeAdi);
+    }
+    guncelSubeleriGoster();
+  };
+
+  // Seçilen Şubeleri Güncelle
+  function guncelSubeleriGoster() {
+    secilenSubeListesi.innerHTML = "";
+    subeler.forEach((sube) => {
+      const li = document.createElement("li");
+      li.textContent = sube;
+      li.className = "selected-sube-item";
+      secilenSubeListesi.appendChild(li);
+    });
+  }
+
+  // Yılları Yükle
+  async function yillariYukle() {
+    try {
+      const response = await fetch("/api/yillar");
+      const yillar = await response.json();
+
+      yilSecimi.innerHTML = `<option value="">Yıl Seç</option>`;
+      yillar.forEach((yil) => {
+        const option = document.createElement("option");
+        option.value = yil;
+        option.textContent = yil;
+        yilSecimi.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Yıllar yüklenirken hata oluştu:", error);
+    }
+  }
+
+  // Grafik Oluştur
+  function grafikOlustur(data) {
+    if (sonGrafik) {
+      sonGrafik.destroy();
+    }
+
+    sonGrafik = new Chart(grafikCanvas.getContext("2d"), {
+      type: "bar",
+      data: {
+        labels: data.map((item) => item.sube),
+        datasets: [
+          {
+            label: "Gelir",
+            data: data.map((item) => item.gelir),
+            backgroundColor: "rgba(75, 192, 192, 0.6)",
+          },
+          {
+            label: "Gider",
+            data: data.map((item) => item.gider),
+            backgroundColor: "rgba(255, 99, 132, 0.6)",
+          },
+          {
+            label: "Kar",
+            data: data.map((item) => item.kar),
+            backgroundColor: "rgba(54, 162, 235, 0.6)",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: "top" },
+        },
+        scales: {
+          y: { beginAtZero: true },
+        },
+      },
+    });
+  }
+
+  // Karşılaştırma Yap
+  karsilastirButonu.addEventListener("click", async () => {
+    const yil = yilSecimi.value;
+    const periyot = periyotSecimi.value;
+
+    if (!yil || !periyot || subeler.size === 0) {
+      alert("Lütfen yıl, periyot seçin ve en az bir şube seçin!");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/karsilastir", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sorguTipi: "periyot",
+          secilenDeger: `${yil}-${periyot}`,
+          subeler: Array.from(subeler),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.message) {
+        alert(data.message);
+        return;
+      }
+
+      grafikOlustur(data);
+    } catch (error) {
+      console.error("Karşılaştırma sırasında hata oluştu:", error);
+    }
+  });
+
+  // Başlangıçta Yılları Yükle
+  yillariYukle();
+});

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tahminleme | Fast Express</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+  <style>
+    /* Şube Butonları için Özel Tasarım */
+    .sube-button {
+      font-size: 1rem;
+      padding: 10px 20px;
+      border: 2px solid #007bff;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #007bff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sube-button:hover {
+      background: #007bff;
+      color: #ffffff;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .sube-button.selected {
+      background: #007bff;
+      color: #ffffff;
+      border-color: #0056b3;
+    }
+
+    /* Tahminle Butonu */
+    #tahminleButton {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #tahminleButton:hover {
+      background-color: #007bff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Kargo Yüzdesi Girişi */
+    #percentInput {
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+      padding: 8px 12px;
+      width: 150px;
+    }
+
+    #percentInput:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="layout">
+    <!-- Sol Bar -->
+    <nav id="sidebar">
+      <div class="sidebar-header">Fast Express</div>
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Anasayfa</a></li>
+        <li><a href="subeler.html"><i class="fas fa-building"></i> Şubeler</a></li>
+        <li><a href="personel.html"><i class="fas fa-users"></i> Personel</a></li>
+        <li><a href="karsilastirma.html"><i class="fas fa-chart-bar"></i> Karşılaştırma</a></li>
+        <li><a href="tahminleme.html" class="active"><i class="fas fa-chart-line"></i> Tahminleme</a></li>
+        <li><a href="raporlama.html"><i class="fas fa-file-alt"></i> Raporlama</a></li>
+        <li><a href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
+      </ul>
+    </nav>
+    
+    <!-- İçerik -->
+    <div id="content" class="p-4 flex-grow-1">
+      <h1 class="text-primary">Tahminleme</h1>
+
+      <!-- Şube Listesi -->
+      <div id="subeListesi" class="d-flex flex-wrap gap-2 mt-3"></div>
+
+      <!-- Kargo Artış Yüzdesi ve Tahminle Butonu -->
+      <div class="mt-4 d-flex align-items-center gap-3">
+        <input type="number" id="percentInput" class="form-control" placeholder="Kargo artış (%)" step="0.01" required>
+        <button id="tahminleButton" class="btn">Tahminle</button>
+      </div>
+
+      <!-- Grafik Alanı -->
+      <div class="mt-5">
+        <canvas id="gelirGiderKarGrafik" style="max-width: 1000px; max-height: 500px;"></canvas>
+      </div>
+    </div>
+  </div>
+  <script src="js/tahminleme.js"></script>
+</body>
+</html>

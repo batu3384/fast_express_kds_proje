@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karşılaştırma | Fast Express</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .popup-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.popup-button:hover {
+  background-color: #0056b3;
+}
+
+.selected-sube-item {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* Dropdown Tasarımı */
+#secenekler select {
+  width: 200px; /* Genişlik */
+  padding: 8px 12px; /* İç kenar boşlukları */
+  margin: 10px; /* Dış kenar boşlukları */
+  font-size: 14px; /* Yazı boyutu */
+  border: 1px solid #ccc; /* Kenar rengi */
+  border-radius: 5px; /* Köşeleri yuvarla */
+  background-color: #f9f9f9; /* Açık arka plan */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+  transition: all 0.3s ease; /* Geçiş efekti */
+}
+
+/* Dropdown Hover */
+#secenekler select:hover {
+  border-color: #007bff; /* Hover'da mavi kenar rengi */
+  background-color: #fff; /* Beyaz arka plan */
+}
+
+/* Dropdown Focus */
+#secenekler select:focus {
+  outline: none; /* Varsayılan mavi sınır kaldırılır */
+  border-color: #0056b3; /* Focus'da koyu mavi kenar rengi */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* Mavi parlama efekti */
+}
+
+/* Seçenek Başlıkları */
+#secenekler label {
+  font-weight: bold; /* Kalın yazı */
+  margin-right: 10px; /* Sağ boşluk */
+  font-size: 14px; /* Yazı boyutu */
+  color: #333; /* Yazı rengi */
+}
+
+/* Periyot, Yıl ve Ay Seçim Alanı */
+#secenekler {
+  display: flex; /* Yatay hizalama */
+  align-items: center; /* Dikey ortalama */
+  gap: 20px; /* Seçim kutuları arasındaki boşluk */
+  margin-bottom: 20px; /* Alt boşluk */
+}
+
+/* Karşılaştırma Butonu Tasarımı */
+#karsilastirButonu {
+  background-color: #007bff; 
+  color: #fff; /* Beyaz yazı */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px; /* Büyük font boyutu */
+  font-weight: bold; /* Kalın yazı */
+  border-radius: 5px; /* Köşeleri yuvarla */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Hover geçiş efekti */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+}
+
+#karsilastirButonu:hover {
+  background-color: #007bff; 
+  transform: translateY(-2px); /* Hover'da yukarı hareket */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Daha belirgin gölge */
+}
+
+
+  </style>
+</head>
+<body>
+  <div id="layout">
+    <!-- Sol Bar -->
+    <nav id="sidebar">
+      <div class="sidebar-header">Fast Express</div>
+      <ul class="nav-links">
+          <li><a href="index.html"><i class="fas fa-home"></i> Anasayfa</a></li>
+          <li><a href="subeler.html"><i class="fas fa-building"></i> Şubeler</a></li>
+          <li><a href="personel.html"><i class="fas fa-users"></i> Personel</a></li>
+          <li><a href="karsilastirma.html" class="active"><i class="fas fa-chart-bar"></i> Karşılaştırma</a></li>
+          <li><a href="tahminleme.html"><i class="fas fa-chart-line"></i> Tahminleme</a></li>
+          <li><a href="raporlama.html"><i class="fas fa-file-alt"></i> Raporlama</a></li>
+          <li><a href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
+      </ul>
+  </nav>
+
+    <!-- İçerik -->
+    <div id="content">
+      <h1>Şube Karşılaştırma</h1>
+
+      <!-- Harita -->
+      <div id="harita" style="height: 300px; margin-bottom: 20px;"></div>
+
+      <!-- Seçenekler -->
+      <div id="secenekler" class="secenekler">
+        <label for="yilSecimi">Yıl:</label>
+        <select id="yilSecimi">
+          <option value="" disabled selected hidden>Yıl Seç</option>
+        </select>
+      
+        <label for="periyotSecimi">Periyot:</label>
+        <select id="periyotSecimi">
+          <option value="" disabled selected hidden>Periyot Seç</option>
+          <option value="ilk6">İlk 6 Ay</option>
+          <option value="son6">Son 6 Ay</option>
+        </select>
+      </div>
+      
+      <!-- Seçilen Şubeler -->
+      <div>
+        <h3>Seçilen Şubeler</h3>
+        <ul id="secilenSubeListesi"></ul>
+      </div>
+
+      <!-- Karşılaştırma Butonu -->
+      <button id="karsilastirButonu" class="analiz-buton">Karşılaştır</button>
+
+      <!-- Grafik -->
+      <div class="grafik-kapsayici">
+        <canvas id="karsilastirmaGrafik"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/karsilastirma.js"></script>
+</body>
+</html>

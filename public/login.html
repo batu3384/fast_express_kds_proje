@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Fast Express</title>
+    <link rel="stylesheet" href="css/login.css"> <!-- Stil bağlantısı düzgün olmalı -->
+</head>
+<body>
+    <div class="login-container">
+        <h2>Fast Express Giriş</h2>
+        <form id="loginForm">
+            <label for="kullanici_adi">Kullanıcı Adı:</label>
+            <input type="text" id="kullanici_adi" name="kullanici_adi" placeholder="Kullanıcı adınızı girin" required>
+
+            <label for="sifre">Şifre:</label>
+            <input type="password" id="sifre" name="sifre" placeholder="Şifrenizi girin" required>
+
+            <button type="submit">Giriş Yap</button>
+        </form>
+        <p id="errorMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const kullanici_adi = document.getElementById("kullanici_adi").value;
+            const sifre = document.getElementById("sifre").value;
+
+            try {
+                const response = await fetch("http://localhost:3000/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ kullanici_adi, sifre })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message);
+                    window.location.href = "index.html"; // Başarılı giriş sonrası yönlendirme
+                } else {
+                    document.getElementById("errorMessage").innerText = data.message;
+                }
+            } catch (error) {
+                console.error("Hata:", error);
+                document.getElementById("errorMessage").innerText = "Sunucu hatası.";
+            }
+        });
+    </script>
+</body>
+</html>
