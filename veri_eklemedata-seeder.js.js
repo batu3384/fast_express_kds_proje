@@ -1,4 +1,5 @@
- const mysql = require("mysql2/promise");
+
+// Fix filename const mysql = require("mysql2/promise");
 const { faker } = require("@faker-js/faker");
 const { format, addMonths, addDays } = require("date-fns");
 
