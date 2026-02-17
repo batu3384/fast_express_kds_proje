@@ -1,13 +1,22 @@
 
-// Fix filename const mysql = require("mysql2/promise");
+
+const mysql = require("mysql2/promise");
 const { faker } = require("@faker-js/faker");
 const { format, addMonths, addDays } = require("date-fns");
 
 
 
 
+
+
+
+
 // Faker Türkçe yerelleştirme
 faker.locale = "tr";
+
+
+
+
 
 
 
@@ -22,9 +31,17 @@ const connectionConfig = {
 
 
 
+
+
+
+
 async function veriEkle() {
   try {
     const connection = await mysql.createConnection(connectionConfig);
+
+
+
+
 
 
 
@@ -39,7 +56,15 @@ async function veriEkle() {
 
 
 
+
+
+
+
     console.log("Şube ve bağlı ilçe ID'leri:", subeIlceMap);
+
+
+
+
 
 
 
@@ -52,6 +77,10 @@ async function veriEkle() {
 
 
 
+
+
+
+
     for (let i = 0; i < musteriSayisi; i++) {
       const musteriAdi = faker.person.firstName();
       const musteriSoyadi = faker.person.lastName();
@@ -60,26 +89,8 @@ async function veriEkle() {
 
 
 
+
+
+
+
       // Rastgele bir şube seç ve ilgili ilçe bilgilerini al
-      const randomSube = subeler[Math.floor(Math.random() * subeler.length)];
-      const subeId = randomSube.sube_id;
-      const ilceId = randomSube.ilce_id;
-
-
-
-
-      const [result] = await connection.execute(
-        `INSERT INTO musteriler (musteri_adi, musteri_soyadi, musteri_telefon, sube_id, ilce_id)
-         VALUES (?, ?, ?, ?, ?)`,
-        [musteriAdi, musteriSoyadi, musteriTelefon, subeId, ilceId]
-      );
-      musteriIds.push({ musteriId: result.insertId, subeId });
-    }
-    console.log(`${musteriSayisi} Türk müşteri başarıyla eklendi.`);
-
-
-
-
-    // 3. Personel ID'lerini Al
-    const [personeller] = await connection.execute("SELECT personel_id, sube_id FROM personel");
-// Final rename
