@@ -1,45 +1,45 @@
-# Fast Express KDS - Karar Destek Sistemi
+# Decision Support System
 
-Isletmeler icin gelistirilmis, veriye dayali karar destek sistemi. Enflasyon ve maliyet verilerini analiz ederek gelecege yonelik tahminlemeler yapar.
+A data-driven decision support system for businesses. Analyzes inflation and cost data to generate future projections and forecasts.
 
-## Ozellikler
+## Features
 
-- Tahminleme Motoru: Linear Regression ile enflasyon bazli maliyet tahmini
-- Hibrit Mimari: Node.js (Express) + Python (Flask) dual-backend yapisi
-- Otomasyon: node-cron ile zamanlanmis veri guncellemeleri ve raporlar
-- Guvenlik: Bcrypt sifreleme, session yonetimi
-- MySQL Veritabani: Kapsamli veri yonetimi
+- **Forecasting Engine:** Linear Regression-based inflation-adjusted cost prediction
+- **Hybrid Architecture:** Node.js (Express) + Python (Flask) dual-backend setup
+- **Automation:** Scheduled data updates and reports via node-cron
+- **Security:** Bcrypt encryption and session management
+- **MySQL Database:** Comprehensive data management
 
-## Teknolojiler
+## Tech Stack
 
-| Kategori | Teknoloji |
-|----------|----------|
+| Category | Technology |
+|----------|-----------|
 | Backend | Node.js, Express, Python, Flask |
-| ML | scikit-learn, ml-regression |
-| Veritabani | MySQL |
-| Guvenlik | bcrypt, express-session |
-| Otomasyon | node-cron |
+| Machine Learning | scikit-learn, ml-regression |
+| Database | MySQL |
+| Security | bcrypt, express-session |
+| Automation | node-cron |
 
-## Proje Yapisi
+## Project Structure
 
 ```
-fast_express_kds_proje/
-|-- app.js           # Node.js ana sunucu
-|-- app.py           # Python Flask tahminleme servisi
-|-- veri_ekleme.js   # Veritabani seed scripti
-|-- package.json     # Node.js bagimliliklari
+decision-support-system/
+├── app.js           # Node.js main server
+├── app.py           # Python Flask prediction service
+├── data-seeder.js   # Database seed script
+└── package.json     # Node.js dependencies
 ```
 
-## Kurulum
+## Getting Started
 
 ```bash
-git clone https://github.com/batu3384/fast_express_kds_proje.git
-cd fast_express_kds_proje
+git clone https://github.com/batu3384/decision-support-system.git
+cd decision-support-system
 npm install
 pip install flask scikit-learn
 npm start
 ```
 
-## Lisans
+## License
 
 MIT License
