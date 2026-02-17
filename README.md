@@ -1,45 +1,63 @@
-# Decision Support System
+# 📈 Decision Support System (DSS)
 
-A data-driven decision support system for businesses. Analyzes inflation and cost data to generate future projections and forecasts.
+![Node.js](https://img.shields.io/badge/Node.js-14.x-green) ![Python](https://img.shields.io/badge/Python-3.9-blue) ![Flask](https://img.shields.io/badge/Flask-2.x-black) ![MySQL](https://img.shields.io/badge/Database-MySQL-4479A1)
 
-## Features
+A robust, data-driven **Decision Support System** designed for business intelligence. This platform analyzes economic data (inflation, cost indices) to generate accurate future projections using machine learning.
 
-- **Forecasting Engine:** Linear Regression-based inflation-adjusted cost prediction
-- **Hybrid Architecture:** Node.js (Express) + Python (Flask) dual-backend setup
-- **Automation:** Scheduled data updates and reports via node-cron
-- **Security:** Bcrypt encryption and session management
-- **MySQL Database:** Comprehensive data management
+## 🌟 Features
 
-## Tech Stack
+- **🔮 Forecasting Engine:** Utilizes **Linear Regression** algorithms to predict future costs based on inflation trends.
+- **🏗️ Hybrid Architecture:** Seamlessly integrates a **Node.js (Express)** backend for application logic with a **Python (Flask)** microservice for data science operations.
+- **🔄 Automated Data Pipeline:** Uses `node-cron` for scheduled data fetching and database updates.
+- **🔒 Enterprise Security:** Implements Bcrypt for robust password hashing and secure session management.
+- **📊 Interactive Dashboard:** Visualizes predictions and historical data for informed decision-making.
 
-| Category | Technology |
-|----------|-----------|
-| Backend | Node.js, Express, Python, Flask |
-| Machine Learning | scikit-learn, ml-regression |
-| Database | MySQL |
-| Security | bcrypt, express-session |
-| Automation | node-cron |
+## 🏗️ System Architecture
 
-## Project Structure
+The system operates on a dual-backend architecture:
+1. **Node.js Server:** Handles HTTP requests, user authentication, and database interactions.
+2. **Python Flask Service:** Dedicated to ML calculations and forecasting, communicating with Node.js via internal APIs.
 
-```
-decision-support-system/
-├── app.js           # Node.js main server
-├── app.py           # Python Flask prediction service
-├── data-seeder.js   # Database seed script
-└── package.json     # Node.js dependencies
-```
+## 🛠️ Tech Stack
 
-## Getting Started
+| Domain | Tools |
+|--------|-------|
+| **Backend (Core)** | Node.js, Express.js |
+| **Backend (AI)** | Python, Flask, Scikit-Learn |
+| **Database** | MySQL |
+| **Security** | Bcrypt, Express-Session |
+| **DevOps** | Node-Cron (Scheduling) |
 
-```bash
-git clone https://github.com/batu3384/decision-support-system.git
-cd decision-support-system
-npm install
-pip install flask scikit-learn
-npm start
-```
+## 🚀 Installation & Setup
 
-## License
+1. **Clone the Repo**
+   ```bash
+   git clone https://github.com/batu3384/decision-support-system.git
+   cd decision-support-system
+   ```
 
+2. **Setup Node.js Backend**
+   ```bash
+   npm install
+   ```
+
+3. **Setup Python Service**
+   ```bash
+   pip install flask scikit-learn pandas mysql-connector-python
+   ```
+
+4. **Database Configuration**
+   - Import the provided SQL schema (if available) into your MySQL instance.
+   - Configure connection strings in `app.js` and `app.py`.
+
+5. **Run the System**
+   ```bash
+   # Start Node.js server
+   npm start
+   
+   # Start Python Flask service (in a separate terminal)
+   python app.py
+   ```
+
+## 📄 License
 MIT License
